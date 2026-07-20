@@ -1,0 +1,208 @@
+@import "tailwindcss";
+
+/* Without this, Tailwind's `dark:` variant defaults to the OS-level
+   `prefers-color-scheme` media query — completely disconnected from this
+   app's manual light/dark toggle (which only drives the CSS custom
+   properties below via the `data-theme` attribute). Scoping `dark:` to
+   `data-theme` here means every `dark:` utility across the app follows the
+   in-app toggle instead of the visitor's OS preference. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  --color-primary: #2563eb;
+  --color-primary-soft: #3b82f6;
+  --color-accent: #059669;
+  --color-accent-soft: #22c55e;
+  --color-destructive: #dc2626;
+  --color-warning: #d97706;
+
+  --color-background: #eef2fb;
+  --color-foreground: #0f172a;
+  --color-muted-foreground: #475569;
+  --color-surface: rgba(255, 255, 255, 0.6);
+  --color-surface-strong: rgba(255, 255, 255, 0.92);
+  --color-popup-surface: rgba(255, 255, 255, 0.98);
+  --color-border: rgba(15, 23, 42, 0.08);
+  --glass-blur: 20px;
+  --glass-highlight: rgba(255, 255, 255, 0.5);
+  --shadow-ambient: 0 10px 30px -14px rgba(15, 23, 42, 0.25);
+
+  --mesh-1: #93c5fd;
+  --mesh-2: #c4b5fd;
+  --mesh-3: #6ee7b7;
+}
+
+:root[data-theme="dark"] {
+  --color-background: #0a0c11;
+  --color-foreground: #f5f6f8;
+  --color-muted-foreground: #9aa0b0;
+  --color-surface: rgba(255, 255, 255, 0.055);
+  --color-surface-strong: rgba(255, 255, 255, 0.2);
+  --color-popup-surface: rgba(22, 24, 32, 0.96);
+  --color-border: rgba(255, 255, 255, 0.11);
+  --glass-highlight: rgba(255, 255, 255, 0.09);
+  --shadow-ambient: 0 20px 45px -18px rgba(0, 0, 0, 0.65);
+
+  --mesh-1: #1d4ed8;
+  --mesh-2: #6d28d9;
+  --mesh-3: #047857;
+}
+
+@theme inline {
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.mesh-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(at 15% 20%, var(--mesh-1) 0px, transparent 55%),
+    radial-gradient(at 85% 15%, var(--mesh-2) 0px, transparent 50%),
+    radial-gradient(at 50% 85%, var(--mesh-3) 0px, transparent 55%);
+  opacity: 0.35;
+  transition: opacity 0.3s ease;
+}
+
+:root[data-theme="dark"] .mesh-background {
+  opacity: 0.14;
+}
+
+.glass-panel {
+  background: var(--color-surface);
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 1px 0 0 var(--glass-highlight) inset, var(--shadow-ambient);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.glass-panel-strong {
+  background: var(--color-popup-surface);
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 1px 0 0 var(--glass-highlight) inset, var(--shadow-ambient);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+/* Flat (non-blurred) surface for elements repeated many times at once
+   (e.g. kanban cards) — avoids stacking dozens of backdrop-filter contexts,
+   which is expensive to composite. Colors mirror .glass-panel without the blur. */
+.surface-card {
+  background: var(--color-surface-strong);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 1px 0 0 var(--glass-highlight) inset, 0 4px 16px -8px rgba(0, 0, 0, 0.35);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.card-hover-lift:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primary-soft);
+  box-shadow:
+    0 1px 0 0 var(--glass-highlight) inset,
+    0 4px 16px -8px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(59, 130, 246, 0.18),
+    0 14px 32px -10px rgba(59, 130, 246, 0.25),
+    0 10px 28px -12px rgba(124, 58, 237, 0.2);
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted-foreground);
+  background-clip: content-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Skeleton loading shimmer */
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface) 25%,
+    var(--color-surface-strong) 37%,
+    var(--color-surface) 63%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+  border-radius: 0.75rem;
+}
+
+/* Top-of-page route transition progress bar */
+@keyframes route-progress {
+  0% {
+    width: 0%;
+    opacity: 1;
+  }
+  70% {
+    width: 80%;
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+    opacity: 0;
+  }
+}
+.route-progress-bar {
+  animation: route-progress 0.6s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+  }
+}
