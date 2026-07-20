@@ -16,9 +16,9 @@ import { useMemo, useState } from "react";
 
 const filters: (StockStatus | "All")[] = ["All", "In Stock", "Low Stock", "Out of Stock"];
 
-const statusTone: Record<StockStatus, "success" | "warning" | "danger"> = {
+const statusTone: Record<StockStatus, "success" | "warning-strong" | "danger"> = {
   "In Stock": "success",
-  "Low Stock": "warning",
+  "Low Stock": "warning-strong",
   "Out of Stock": "danger",
 };
 

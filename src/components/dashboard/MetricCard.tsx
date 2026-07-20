@@ -43,7 +43,7 @@ export function MetricCard({
             "flex shrink-0 items-center gap-0.5 rounded-full px-2 py-1 text-[11px] font-bold",
             trend.positive
               ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-              : "bg-rose-500/10 text-rose-600 dark:text-rose-400"
+              : "bg-rose-500/10 text-rose-600 dark:text-rose-300"
           )}
         >
           {trend.positive ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}

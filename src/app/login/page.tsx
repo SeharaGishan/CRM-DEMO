@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/Button";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { motion } from "framer-motion";
-import { Lock, Mail, Sparkles } from "lucide-react";
+import { Lock, Mail, Zap } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -32,7 +32,7 @@ export default function LoginPage() {
         <GlassCard strong className="p-8">
           <div className="mb-6 flex flex-col items-center text-center">
             <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-900/20">
-              <Sparkles className="h-7 w-7" />
+              <Zap className="h-7 w-7" />
             </div>
             <h1 className="text-2xl font-extrabold text-[var(--color-foreground)]">Sharkonix CRM</h1>
             <p className="mt-1 text-sm text-[var(--color-muted-foreground)]">
